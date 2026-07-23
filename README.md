@@ -132,7 +132,7 @@ To contribute: fork → branch → PR. Please include your loss curves / metrics
 
 ---
 
-## 👤 Author
+## 👥 Authors
 
-**Ali Alavi** — M.Sc. Computer Science, University of Messina
-[LinkedIn](https://www.linkedin.com/in/ali-alavi-cs/) · [GitHub](https://github.com/salavii)
+- **Ali Alavi** — M.Sc. Computer Science, University of Messina · [LinkedIn](https://www.linkedin.com/in/ali-alavi-cs/) · [GitHub](https://github.com/salavii)
+- **Mohaddeseh Jahanabadi** — [GitHub](https://github.com/jahanabadi-n)
