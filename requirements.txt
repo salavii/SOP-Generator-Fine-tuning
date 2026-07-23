@@ -12,3 +12,6 @@ gradio
 numpy
 pandas
 scikit-learn
+rouge-score
+bert-score
+tqdm

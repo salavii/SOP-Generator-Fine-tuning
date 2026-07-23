@@ -91,7 +91,7 @@ Format:
 |---|---|---|
 | [`01_data_preparation.ipynb`](notebooks/01_data_preparation.ipynb) | Loads SOPs, parses field metadata, formats to chat schema, splits, exports JSONL | ✅ Complete |
 | [`02_model_training.ipynb`](notebooks/02_model_training.ipynb) | LoRA fine-tuning with assistant-only loss + inference test | ✅ Complete |
-| `03_evaluation.ipynb` | Quantitative evaluation (ROUGE / BERTScore) vs. base model | 🚧 Open |
+| [`03_evaluation.ipynb`](notebooks/03_evaluation.ipynb) | Quantitative evaluation (ROUGE-L / BERTScore) vs. base model | ✅ Added |
 | `04_demo.ipynb` | Gradio inference demo | 🚧 Open |
 
 ---
