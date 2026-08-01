@@ -91,14 +91,14 @@ Format:
 |---|---|---|
 | [`01_data_preparation.ipynb`](notebooks/01_data_preparation.ipynb) | Loads SOPs, parses field metadata, formats to chat schema, splits, exports JSONL | ✅ Complete |
 | [`02_model_training.ipynb`](notebooks/02_model_training.ipynb) | LoRA fine-tuning with assistant-only loss + inference test | ✅ Complete |
-| [`03_evaluation.ipynb`](notebooks/03_evaluation.ipynb) | Quantitative evaluation (ROUGE-L / BERTScore) vs. base model | ✅ Added |
+| [`03_evaluation.ipynb`](notebooks/03_evaluation.ipynb) | Reproducible base-vs-LoRA evaluation with ROUGE-L and BERTScore | 🧪 Ready to run |
 | `04_demo.ipynb` | Gradio inference demo | 🚧 Open |
 
 ---
 
 ## ⚠️ Known Limitations
 
-- **No quantitative evaluation yet.** Only validation loss and qualitative inspection — no ROUGE/BERTScore, no base-vs-tuned comparison.
+- **Quantitative results are not reported yet.** A reproducible base-vs-LoRA evaluation notebook is included, but the full 100-example run and its ROUGE-L/BERTScore results still need to be completed and summarized here.
 - **Undertrained.** Val loss was still falling at step 250; more epochs or a larger LoRA rank would likely help.
 - **Small base model.** Llama 3.2 1B is a size compromise for a free T4. Outputs are coherent but contain template placeholders (`[University Name]`, `[Your City]`).
 - **Dataset skew.** 440 of 500 examples are augmented or synthetic; real-world diversity is limited.
@@ -112,7 +112,7 @@ This project has clear, self-contained open pieces. Contributions welcome — se
 
 **Good first contributions:**
 
-1. **Evaluation notebook (`03_evaluation.ipynb`)** — Compare base Llama 3.2 1B vs. the fine-tuned adapter on the 100 validation SOPs using ROUGE-L and BERTScore. Report a before/after table.
+1. **Run the evaluation (`03_evaluation.ipynb`)** — Execute the prepared base-vs-LoRA comparison on all 100 validation SOPs and add the resulting ROUGE-L/BERTScore table to this README.
 2. **Gradio demo (`04_demo.ipynb`)** — Load the LoRA adapter, expose a field-selection dropdown + generate button, deploy to Hugging Face Spaces.
 3. **Extended training run** — Val loss hadn't plateaued. Re-run with more epochs / higher LoRA rank and report the new loss curve.
 4. **Dataset cleaning** — Detect and remove near-duplicate or template-heavy augmented samples.
@@ -124,7 +124,7 @@ To contribute: fork → branch → PR. Please include your loss curves / metrics
 
 ## 🔮 Future Work
 
-- Quantitative eval (ROUGE, BERTScore, base-vs-tuned)
+- Run the prepared quantitative evaluation and report ROUGE-L/BERTScore results for base vs. LoRA
 - Longer training run — val loss had not converged
 - Scale to Llama 3.1 8B with QLoRA (4-bit) on a larger GPU
 - Deployed Gradio demo on HF Spaces
