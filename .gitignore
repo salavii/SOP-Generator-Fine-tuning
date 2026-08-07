@@ -1,0 +1,13 @@
+# Reconstructed dataset and downloaded weights
+evaluation/.cache/
+
+# Python
+__pycache__/
+*.pyc
+
+# Environments
+.venv/
+venv/
+
+# Notebook artifacts
+.ipynb_checkpoints/
