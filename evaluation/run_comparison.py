@@ -82,13 +82,24 @@ GENERATION_CONFIG = {
     "do_sample": True,
 }
 
+# Addressing the reader instead of writing the document. An earlier version of
+# this pattern also matched a leading "**" or "#", which flagged every output
+# that began with a title such as "**Statement of Purpose**" -- that is document
+# formatting, not conversational preamble, and it inflated the fine-tuned
+# model's score from 0% to 35%. A title is skipped before matching instead.
 META_PREAMBLE = re.compile(
     r"^\s*(sure|certainly|of course|here(?:'s| is)|absolutely|below is|i'd be happy"
-    r"|great choice|okay|ok\b|as an ai|note:|\*\*|#)",
+    r"|great choice|okay|ok\b|as an ai|note:|i can help|let me)",
     re.IGNORECASE,
+)
+TITLE_LINE = re.compile(
+    r"^\s*(?:[*#\s]*)(statement of purpose|personal statement)[:\s*]*\n+", re.IGNORECASE
 )
 BULLET = re.compile(r"^\s*(?:[-*\u2022]|\d+\.)\s+", re.MULTILINE)
 FIRST_PERSON = re.compile(r"\b(I|I'm|I've|my|me)\b")
+# Unfilled template slots such as "[University Name]" or "[Your Name]". A
+# finished SOP has none; a model producing a fill-in-the-blanks template does.
+PLACEHOLDER = re.compile(r"\[[A-Z][^\]\n]{2,40}\]")
 
 
 # --------------------------------------------------------------------------
@@ -210,11 +221,14 @@ def run_stage(stage: str, n: int, adapter: Path) -> None:
 def structural_metrics(text: str) -> dict:
     sentences = [s for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()]
     first_person = sum(bool(FIRST_PERSON.search(s)) for s in sentences)
+    # Strip a leading document title before testing for conversational preamble.
+    body = TITLE_LINE.sub("", text, count=1)
     return {
         "words": len(text.split()),
-        "meta_preamble": bool(META_PREAMBLE.match(text)),
+        "meta_preamble": bool(META_PREAMBLE.match(body)),
         "bullet_markers": len(BULLET.findall(text)),
         "first_person_ratio": (first_person / len(sentences)) if sentences else 0.0,
+        "placeholders": len(PLACEHOLDER.findall(text)),
     }
 
 
@@ -226,6 +240,9 @@ def aggregate(generations: list[dict]) -> dict:
         "pct_meta_preamble": round(100 * sum(m["meta_preamble"] for m in metrics) / n, 1),
         "mean_bullet_markers": round(sum(m["bullet_markers"] for m in metrics) / n, 2),
         "mean_first_person_ratio": round(sum(m["first_person_ratio"] for m in metrics) / n, 3),
+        "pct_with_placeholders": round(
+            100 * sum(bool(m["placeholders"]) for m in metrics) / n, 1
+        ),
         "pct_hit_token_cap": round(100 * sum(g["hit_token_cap"] for g in generations) / n, 1),
     }
 
