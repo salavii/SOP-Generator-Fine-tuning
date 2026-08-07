@@ -11,3 +11,6 @@ venv/
 
 # Notebook artifacts
 .ipynb_checkpoints/
+
+# Per-stage intermediates; generations.json holds the same content
+evaluation/results/_*.json
