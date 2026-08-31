@@ -2,6 +2,19 @@
 
 Fine-tuning **Llama 3.2 1B Instruct** with **LoRA** to generate structured Statement of Purpose (SOP) drafts for graduate applications. Covers the full pipeline: dataset construction → instruction formatting → parameter-efficient fine-tuning → inference.
 
+> ### The result worth reading about
+>
+> **ROUGE-L moved 0.008** (0.1809 → 0.1891). Judged on that number alone, this fine-tune did
+> almost nothing. It had in fact changed the output format on **every single example**:
+> conversational preamble fell from **100% → 0%** of outputs and bullet markers from 2.05 → 0.0,
+> measured over 20 seed-matched generation pairs. There are many valid SOPs for one prompt, so
+> n-gram overlap with a single reference is close to blind to the thing that actually changed.
+>
+> A second bug surfaced *inside that comparison*: the preamble detector also matched a leading
+> `**` or `#`, so a document title like `**Statement of Purpose**` counted as chatbot preamble —
+> inflating the tuned model's apparent failure rate from 0% to 35%. Fixed by skipping a title
+> line before matching. [Details](#-did-it-actually-learn-the-task).
+
 ---
 
 ## 📊 Results
