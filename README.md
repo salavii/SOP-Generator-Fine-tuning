@@ -42,6 +42,8 @@ Fine-tuning **Llama 3.2 1B Instruct** with **LoRA** to generate structured State
 
 Validation loss decreased monotonically and had **not plateaued** at step 250 — the model was still improving when training stopped. See [Future Work](#-future-work).
 
+These figures are from the Kaggle T4 run in [`02_model_training.ipynb`](notebooks/02_model_training.ipynb), which produced the adapter evaluated below. An independent rerun of the identical configuration on Colab ([`02_model_training_colab.ipynb`](notebooks/02_model_training_colab.ipynb)) landed at 2.267 → **2.096** — same trajectory shape, same conclusion, different data ordering.
+
 ---
 
 ## 🔍 Did it actually learn the task?
@@ -164,7 +166,8 @@ Format:
 | Notebook | Description | Status |
 |---|---|---|
 | [`01_data_preparation.ipynb`](notebooks/01_data_preparation.ipynb) | Loads SOPs, parses field metadata, formats to chat schema, splits, exports JSONL | ✅ Complete |
-| [`02_model_training.ipynb`](notebooks/02_model_training.ipynb) | LoRA fine-tuning with assistant-only loss + inference test | ✅ Complete |
+| [`02_model_training.ipynb`](notebooks/02_model_training.ipynb) | LoRA fine-tuning with assistant-only loss + inference test — the Kaggle T4 run reported above | ✅ Complete |
+| [`02_model_training_colab.ipynb`](notebooks/02_model_training_colab.ipynb) | Same configuration hardened for Colab; independent rerun, val loss 2.267 → 2.096 | ✅ Complete |
 | [`03_evaluation.ipynb`](notebooks/03_evaluation.ipynb) | Base-vs-LoRA evaluation with ROUGE-L and BERTScore over the full 100-example split, for a GPU notebook environment | 🧪 Ready to run, not yet run |
 | `04_demo.ipynb` | Gradio inference demo | 🚧 Open |
 
